@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mi Izmarita 💖</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+
 <style>
     body{
         margin:0;
@@ -17,6 +19,7 @@
         font-family: 'Segoe UI', sans-serif;
         text-align:center;
         overflow:hidden;
+        position:relative;
     }
 
     .card{
@@ -35,6 +38,10 @@
 
     .buttons{
         margin-top:30px;
+        display:flex;
+        justify-content:center;
+        gap:15px;
+        transition:0.3s;
     }
 
     button{
@@ -43,8 +50,7 @@
         border-radius:30px;
         font-size:18px;
         cursor:pointer;
-        margin:10px;
-        transition:0.3s;
+        transition: all 0.4s ease;
     }
 
     #yes{
@@ -62,6 +68,14 @@
         color:#333;
     }
 
+    #noMessages{
+        margin-top:15px;
+        font-size:15px;
+        color:#ff4e88;
+        min-height:30px;
+        transition:0.3s;
+    }
+
     #message{
         display:none;
         margin-top:20px;
@@ -70,9 +84,27 @@
         animation: fadeIn 0.5s ease;
     }
 
+    .firma{
+        position:absolute;
+        bottom:20px;
+        width:100%;
+        text-align:center;
+        font-family: 'Dancing Script', cursive;
+        font-size:22px;
+        color:#ff4e88;
+        opacity:0;
+        animation: aparecer 2s ease forwards;
+        animation-delay: 1.5s;
+    }
+
     @keyframes fadeIn{
         from{opacity:0; transform:translateY(10px);}
         to{opacity:1; transform:translateY(0);}
+    }
+
+    @keyframes aparecer{
+        from{opacity:0; transform:translateY(10px);}
+        to{opacity:0.9; transform:translateY(0);}
     }
 </style>
 </head>
@@ -80,38 +112,73 @@
 <body>
 
 <div class="card">
-    <h1>¿Quieres salir conmigo? 💕</h1>
+    <h1>Izmara <br> ¿Quieres ser mi San Valentín? 💕</h1>
 
-    <div class="buttons">
+    <div class="buttons" id="buttonContainer">
         <button id="yes">Sí 💖</button>
         <button id="no">No 😢</button>
     </div>
 
+    <div id="noMessages"></div>
+
     <div id="message">
-        ✨ ¡Sabía que dirías que sí! ✨<br><br>
-        Prometo que será algo especial 💘
+        ¡Te quiero mucho Izmara! 💘<br><br>
+        ✨Llegaré después de clases✨
     </div>
+</div>
+
+<div class="firma">
+    Att: Santiago 💖
 </div>
 
 <script>
     const yesBtn = document.getElementById("yes");
     const noBtn = document.getElementById("no");
     const message = document.getElementById("message");
+    const noMessages = document.getElementById("noMessages");
+    const container = document.getElementById("buttonContainer");
 
     let scale = 1;
+    let noClickCount = 0;
+
+    const frases = [
+        "ándale, di que sí 🥺",
+        "porfiii 💕",
+        "no seas así 😭",
+        "prometo que será bonito 💖",
+        "piénsalo otra vez 😳",
+        "mira que me pongo triste 😢",
+        "última oportunidad 😅"
+    ];
 
     yesBtn.addEventListener("click", () => {
         message.style.display = "block";
         yesBtn.style.display = "none";
         noBtn.style.display = "none";
+        noMessages.style.display = "none";
     });
 
     noBtn.addEventListener("click", () => {
-        scale -= 0.2;
+
+        // Reducir tamaño lentamente
+        scale -= 0.08;
         if(scale > 0){
             noBtn.style.transform = `scale(${scale})`;
         } else {
             noBtn.style.display = "none";
+        }
+
+        // Reemplazar texto anterior por el nuevo
+        if(noClickCount < frases.length){
+            noMessages.innerHTML = frases[noClickCount];
+            noMessages.style.animation = "fadeIn 0.4s ease";
+        }
+
+        noClickCount++;
+
+        // Intercambiar botones para confundir 😈
+        if(noClickCount === 4 || noClickCount === 7){
+            container.insertBefore(noBtn, yesBtn);
         }
     });
 </script>
